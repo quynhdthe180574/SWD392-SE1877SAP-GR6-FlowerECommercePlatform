@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+    <servlet>
+        <servlet-name>VNPay_Payment</servlet-name>
+        <servlet-class>controller.Payment.VNPay_Payment</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VNPayReturn</servlet-name>
+        <servlet-class>controller.Payment.VNPayReturn</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VNPay_Payment</servlet-name>
+        <url-pattern>/VNPay_Payment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VNPayReturn</servlet-name>
+        <url-pattern>/VNPayReturn</url-pattern>
+    </servlet-mapping>
+</web-app>
