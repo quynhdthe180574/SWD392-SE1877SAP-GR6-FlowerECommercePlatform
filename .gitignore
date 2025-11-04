@@ -1,0 +1,13 @@
+/nbproject
+src/java/constant/Iconstant.java
+/build/
+/.idea
+/.smarttomcat
+/conf
+/logs
+/out
+/work
+EasyQuiz.iml
+/${build.web.dir}
+/dist/
+src/java/dal/DBContext.java
