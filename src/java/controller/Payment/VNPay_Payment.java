@@ -78,7 +78,7 @@ public class VNPay_Payment extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
     throws ServletException, IOException {
-           String vnp_Version = "2.1.0";
+        String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
         long amount = Long.parseLong(req.getParameter("amount"))*100;
