@@ -1,18 +1,20 @@
 package controller;
 
-import dao.ProductDAO;
 import entity.CartItem;
-import entity.Product;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import service.CartService;
+import service.ProductService;
 
 public class ViewCartServlet extends HttpServlet {
+    private final CartService cartService = new CartService();
+    private final ProductService productService = new ProductService();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -26,17 +28,17 @@ public class ViewCartServlet extends HttpServlet {
         System.out.println("ViewCartServlet: Cart from session - " + cart);
 
         if (cart != null && !cart.isEmpty()) {
-            ProductDAO productDAO = new ProductDAO();
             for (Map.Entry<Integer, Integer> entry : cart.entrySet()) {
                 int productId = entry.getKey();
                 int quantity = entry.getValue();
-                Product product = productDAO.getProductById(productId);
+                entity.Product product = productService.getProductById(productId);
                 System.out.println("ViewCartServlet: ProductID " + productId + " - Product: " + (product != null ? product.getName() : "null"));
+
                 if (product != null) {
                     CartItem cartItem = new CartItem();
                     cartItem.setProductId(productId);
                     cartItem.setProductName(product.getName());
-                    cartItem.setPrice(product.getPrice().doubleValue()); // Convert BigDecimal to double
+                    cartItem.setPrice(product.getPrice().doubleValue());
                     cartItem.setQuantity(quantity);
                     cartItem.setImageUrl(product.getImageUrl());
                     cartItems.add(cartItem);

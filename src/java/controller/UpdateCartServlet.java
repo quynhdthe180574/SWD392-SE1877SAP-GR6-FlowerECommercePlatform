@@ -1,6 +1,5 @@
 package controller;
 
-import dao.ProductDAO;
 import entity.Product;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,8 +7,11 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
+import service.CartService;
 
 public class UpdateCartServlet extends HttpServlet {
+    private final CartService cartService = new CartService();
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -28,8 +30,7 @@ public class UpdateCartServlet extends HttpServlet {
                 return;
             }
 
-            ProductDAO productDAO = new ProductDAO();
-            Product product = productDAO.getProductById(productId);
+            Product product = cartService.getProductById(productId);
             if (product == null || product.getStockQuantity() < quantity) {
                 int stock = product != null ? product.getStockQuantity() : 0;
                 out.print("{\"success\":false,\"message\":\"Không đủ hàng! Còn: " + stock + "\"}");
@@ -41,10 +42,8 @@ public class UpdateCartServlet extends HttpServlet {
             } else {
                 cart.put(productId, quantity);
             }
-
             session.setAttribute("cart", cart);
-            int cartSize = cart.values().stream().mapToInt(Integer::intValue).sum();
-
+            int cartSize = cartService.getSessionCartSize(cart);
             out.print("{\"success\":true,\"cartSize\":" + cartSize + "}");
         } catch (Exception e) {
             out.print("{\"success\":false,\"message\":\"Lỗi hệ thống\"}");

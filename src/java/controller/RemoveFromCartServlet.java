@@ -6,8 +6,11 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
+import service.CartService;
 
 public class RemoveFromCartServlet extends HttpServlet {
+    private final CartService cartService = new CartService();
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -19,16 +22,13 @@ public class RemoveFromCartServlet extends HttpServlet {
 
         try {
             int productId = Integer.parseInt(request.getParameter("productId"));
-
             if (cart == null || !cart.containsKey(productId)) {
                 out.print("{\"success\":false,\"message\":\"Sản phẩm không có trong giỏ hàng\"}");
                 return;
             }
-
             cart.remove(productId);
             session.setAttribute("cart", cart);
-            int cartSize = cart != null ? cart.values().stream().mapToInt(Integer::intValue).sum() : 0;
-
+            int cartSize = cartService.getSessionCartSize(cart);
             out.print("{\"success\":true,\"cartSize\":" + cartSize + "}");
         } catch (Exception e) {
             out.print("{\"success\":false,\"message\":\"Lỗi hệ thống\"}");
