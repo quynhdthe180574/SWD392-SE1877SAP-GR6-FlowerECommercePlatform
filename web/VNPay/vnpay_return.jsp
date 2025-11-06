@@ -1,228 +1,130 @@
-<%@page import="java.net.URLEncoder"%>
-<%@page import="java.nio.charset.StandardCharsets"%>
-<%@page import="util.VNPayConfig"%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
-<%@page import="java.util.Iterator"%>
-<%@page import="java.util.Collections"%>
-<%@page import="java.util.List"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.Enumeration"%>
-<%@page import="java.util.Map"%>
-<%@page import="java.util.HashMap"%>
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
+
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <title>KẾT QUẢ THANH TOÁN</title>
-        <!-- Bootstrap core CSS -->
-        <link href="/HotelManagement1/css/bootstrap.min.css" rel="stylesheet"/>
-        <!-- Custom styles for this template -->
-        <link href="/HotelManagement1/css/jumbotron-narrow.css" rel="stylesheet"> 
-        <script src="/HotelManagement1/js/jquery-1.11.3.min.js"></script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Kết quả giao dịch</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" 
+              integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" 
+              crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
-    <body>
-        <%
-            //Begin process return from VNPAY
-            Map fields = new HashMap();
-            for (Enumeration params = request.getParameterNames(); params.hasMoreElements();) {
-                String fieldName = URLEncoder.encode((String) params.nextElement(), StandardCharsets.US_ASCII.toString());
-                String fieldValue = URLEncoder.encode(request.getParameter(fieldName), StandardCharsets.US_ASCII.toString());
-                if ((fieldValue != null) && (fieldValue.length() > 0)) {
-                    fields.put(fieldName, fieldValue);
-                }
-            }
+    <style>
+        body {
+            background-color: #ffeef4;
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-            String vnp_SecureHash = request.getParameter("vnp_SecureHash");
-            if (fields.containsKey("vnp_SecureHashType")) {
-                fields.remove("vnp_SecureHashType");
-            }
-            if (fields.containsKey("vnp_SecureHash")) {
-                fields.remove("vnp_SecureHash");
-            }
-            String signValue = VNPayConfig.hashAllFields(fields);
+        section {
+            max-width: 600px;
+            margin: 60px auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.2);
+            text-align: center;
+        }
 
-        %>
-        <style>
-            /* Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
 
-/* Body setup */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f7f7f7;
-    color: #333;
-    line-height: 1.6;
-    padding: 20px;
-}
+        p {
+            font-size: 17px;
+            margin: 10px 0;
+        }
 
-/* Container */
-.container {
-    max-width: 700px;
-    margin: 40px auto;
-    background: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+        strong {
+            font-size: 22px;
+        }
 
-/* Header */
-.header {
-    text-align: center;
-    margin-bottom: 30px;
-}
+        .btn-home {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 28px;
+            background: #ffb6c1;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: 0.3s ease;
+        }
 
-.header h3 {
-    font-size: 24px;
-    color: #4e73df;
-    font-weight: bold;
-}
+        .btn-home:hover {
+            background: #ff8fab;
+            box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
+        }
+        img {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 20px;
+        }
+    </style>
+    <body style="background-color: #f4f4f4; font-family: Arial, sans-serif; margin: 0; padding: 20px;">
 
-/* Form Group */
-.form-group {
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
 
-.form-group label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    flex: 1;
-    color: #555;
-}
-
-.form-group label:last-child {
-    flex: 2;
-    text-align: right;
-    color: #333;
-    font-weight: normal;
-    word-wrap: break-word;
-}
-
-/* Table responsiveness */
-.table-responsive {
-    width: 100%;
-}
-
-/* Footer */
-.footer {
-    margin-top: 30px;
-    text-align: center;
-    color: #777;
-    font-size: 14px;
-}
-
-/* Button (optional if you want to add a button for return) */
-.button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #4e73df;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    margin-top: 20px;
-    transition: background-color 0.3s;
-}
-
-.button:hover {
-    background-color: #2e59d9;
-}
-
-/* Mobile Responsive */
-@media (max-width: 600px) {
-    .form-group {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .form-group label:last-child {
-        text-align: left;
-    }
-}
-
-        </style>
-        <!--Begin display -->
-        <div class="container">
-            <div class="header clearfix">
-                <h3 class="text-muted">KẾT QUẢ THANH TOÁN</h3>
+        <section style="margin-top: 50px; text-align: center;">
+            <div>
+                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:150:0/q:90/plain/https://cellphones.com.vn/media/wysiwyg/Review-empty.png" 
+                     alt="Transaction Status" 
+                     style="width: 120px; height: 120px; margin-bottom: 20px;">
             </div>
-            <div class="table-responsive">
-                <div class="form-group">
-                    <label >Mã giao dịch thanh toán:</label>
-                    <label><%=request.getParameter("vnp_TxnRef")%></label>
-                </div>    
-                <div class="form-group">
-                    <label >Số tiền:</label>
-                    <label>
-                        <%
-                            String amountParam = request.getParameter("vnp_Amount");
-                            long amount = 0;
-                            if (amountParam != null && !amountParam.isEmpty()) {
-                                amount = Long.parseLong(amountParam) / 100; // Chia lại 100
-                            }
-                            out.print(amount + " VND");
-                        %>
-                    </label>
-                </div>  
-                <div class="form-group">
-                    <label >Mô tả giao dịch:</label>
-                    <label><%=request.getParameter("vnp_OrderInfo")%></label>
-                </div> 
-                <div class="form-group">
-                    <label >Mã lỗi thanh toán:</label>
-                    <label><%=request.getParameter("vnp_ResponseCode")%></label>
-                </div> 
-                <div class="form-group">
-                    <label >Mã giao dịch tại CTT VNPAY-QR:</label>
-                    <label><%=request.getParameter("vnp_TransactionNo")%></label>
-                </div> 
-                <div class="form-group">
-                    <label >Mã ngân hàng thanh toán:</label>
-                    <label><%=request.getParameter("vnp_BankCode")%></label>
-                </div> 
-                <div class="form-group">
-                    <label >Thời gian thanh toán:</label>
-                    <label><%=request.getParameter("vnp_PayDate")%></label>
-                </div> 
-                <div class="form-group">
-                    <label >Tình trạng giao dịch:</label>
-                    <label>
-                        <%
-                            if (signValue.equals(vnp_SecureHash)) {
-                                if ("00".equals(request.getParameter("vnp_TransactionStatus"))) {
-                                    out.print("Thành công");
-                                } else {
-                                    out.print("Không thành công");
-                                }
 
-                            } else {
-                                out.print("invalid signature");
-                            }
-                        %></label>
-                </div> 
-            </div>
-            <p>
-                &nbsp;
-            </p>
-            
-            <footer class="footer">
-                <p>&copy; VNPAY 2020</p>
-            </footer>
-            <a href="HomeController" class="btn-secondary">Về trang chủ</a>
-        </div>  
-                
+            <!-- Giao dịch thành công -->
+            <c:if test="${transResult}">
+                <div>
+                    <h3 style="font-weight: bold; color: #28a745;">
+                        Transaction has been successful!                    
+                        <i class="fas fa-check-circle"></i>
+                    </h3>
+                    <p style="font-size: 18px; margin-top: 15px;">Please note the consultant's phone number:</p>
+                    <strong style="color: red; font-size: 24px;">0383459560</strong>
+                </div>
+            </c:if>
+
+            <!-- Giao dịch thất bại -->
+            <c:if test="${transResult == false}">
+                <div>
+                    <h3 style="font-weight: bold; color: #dc3545;">
+                        Transaction order failed!
+                    </h3>
+                    <p style="font-size: 18px; margin-top: 15px;">Thank you for using our service.</p>
+                    <p style="font-size: 18px;">Contact the hotline for advice:</p>
+                    <strong style="color: red; font-size: 24px;">0385684262</strong>
+                </div>
+            </c:if>
+
+            <!-- Đang xử lý giao dịch -->
+            <c:if test="${transResult == null}">
+                <div>
+                    <h3 style="font-weight: bold; color: #ffc107;">
+                        We have received your order, please wait for processing!
+                    </h3>
+                    <p style="font-size: 18px; margin-top: 15px;">Please note the consultant's phone number:</p>
+                    <strong style="color: red; font-size: 24px;">0385684262</strong>
+                </div>
+            </c:if>
+            <a href="home.jsp"
+               style="display: inline-block; background-color: #ffb3d9; color: white;
+               padding: 12px 24px; border-radius: 25px; text-decoration: none;
+               font-size: 16px; font-weight: 600; margin: 8px;
+               transition: all 0.3s ease;">
+                🏠 Back to Home
+            </a>
+            <a href="orderHistory.jsp"
+               style="display: inline-block; background-color: #ffb3d9; color: white;
+               padding: 12px 24px; border-radius: 25px; text-decoration: none;
+               font-size: 16px; font-weight: 600; margin: 8px;
+               transition: all 0.3s ease;">
+                📜 View Order History
+            </a>
+        </section>
+
     </body>
 </html>
