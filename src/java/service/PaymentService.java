@@ -19,12 +19,12 @@ import java.math.BigDecimal;
  *
  * @author ADMIN
  */
-public class VNPayService {
+public class PaymentService {
 
     private final OrderDAO orderDAO;
     private final PaymentDAO paymentDAO;
 
-    public VNPayService() {
+    public PaymentService() {
         this.orderDAO = new OrderDAO();
         this.paymentDAO = new PaymentDAO();
     }
