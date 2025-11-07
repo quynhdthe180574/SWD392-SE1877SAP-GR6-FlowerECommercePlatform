@@ -8,7 +8,7 @@
     <body>
         <div class="login-container">
             <div class="login-card">
-                <div class="logo">🌷 Flower Shop</div>
+                <div class="logo">Flower Shop</div>
                 <h2>Welcome Back</h2>
                 <p class="subtitle">Log in to continue your floral journey</p>
 
@@ -24,8 +24,6 @@
 
                     <p style="color:red; text-align:center;">${error}</p>
                     <p style="color:green; text-align:center;">${param.msg}</p>
-
-                    <div class="divider">or continue with</div>
                     <p class="register-link">
                         Don’t have an account? <a href="register.jsp">Register</a>
                     </p>

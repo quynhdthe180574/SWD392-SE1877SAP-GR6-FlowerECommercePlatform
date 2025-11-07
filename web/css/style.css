@@ -79,13 +79,13 @@ h2 {
     font-size: 18px;
 }
 
-.input-group.email::before {
+/*.input-group.email::before {
     content: '✉️';
 }
 
 .input-group.password::before {
     content: '🔒';
-}
+}*/
 
 input {
     width: 100%;
