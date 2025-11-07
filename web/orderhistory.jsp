@@ -18,43 +18,51 @@
 
         <style>
             :root {
-                --primary-color: #ea4c89;
-                --secondary-color: #f093fb;
-                --success-color: #28a745;
-                --info-color: #17a2b8;
-                --warning-color: #ffc107;
-                --danger-color: #dc3545;
-                --dark-color: #343a40;
-                --light-color: #f8f9fa;
+                /* Pastel Pink Theme */
+                --primary-color: #FFB6C1;      /* Light Pink - Màu hồng pastel chính */
+                --secondary-color: #FFC0CB;    /* Pink - Hồng nhạt */
+                --accent-color: #FFD4E5;       /* Baby Pink - Hồng baby */
+                --primary-dark: #FF9EAF;       /* Dark Pink - Hồng đậm hơn */
+                --success-color: #B8E6D5;      /* Pastel Green */
+                --info-color: #C5E3F6;         /* Pastel Blue */
+                --warning-color: #FFE5B4;      /* Pastel Yellow */
+                --danger-color: #FFB4B4;       /* Pastel Red */
+                --dark-color: #6B5B5B;         /* Soft Dark */
+                --light-color: #FFF5F7;        /* Very Light Pink */
+                --bg-pink: #FFF0F5;            /* Lavender Blush */
             }
 
             body {
                 font-family: 'Nunito', sans-serif;
-                background-color: #f5f5f5;
-                color: #333;
+                background: linear-gradient(135deg, #FFF0F5 0%, #FFE4E9 100%);
+                color: #6B5B5B;
+                min-height: 100vh;
             }
 
             .navbar {
                 background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                box-shadow: 0 2px 15px rgba(255, 182, 193, 0.3);
             }
 
             .navbar-brand {
                 font-weight: 800;
                 font-size: 1.5rem;
                 color: white !important;
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
             }
 
             .page-header {
-                background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-                color: white;
+                background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+                color: var(--dark-color);
                 padding: 3rem 0;
                 margin-bottom: 2rem;
+                box-shadow: 0 4px 20px rgba(255, 182, 193, 0.2);
             }
 
             .page-header h1 {
                 font-weight: 700;
                 margin-bottom: 0.5rem;
+                color: var(--dark-color);
             }
 
             .breadcrumb {
@@ -64,32 +72,34 @@
             }
 
             .breadcrumb-item a {
-                color: rgba(255,255,255,0.8);
+                color: rgba(107, 91, 91, 0.7);
                 text-decoration: none;
             }
 
             .breadcrumb-item.active {
-                color: white;
+                color: var(--dark-color);
             }
 
             .order-card {
                 background: white;
-                border-radius: 12px;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+                border-radius: 16px;
+                box-shadow: 0 4px 12px rgba(255, 182, 193, 0.15);
                 margin-bottom: 1.5rem;
                 overflow: hidden;
                 transition: all 0.3s ease;
+                border: 2px solid var(--accent-color);
             }
 
             .order-card:hover {
-                box-shadow: 0 5px 20px rgba(0,0,0,0.12);
-                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(255, 182, 193, 0.25);
+                transform: translateY(-3px);
+                border-color: var(--primary-color);
             }
 
             .order-header {
-                background: #f8f9fa;
+                background: linear-gradient(135deg, #FFF5F7 0%, #FFE4E9 100%);
                 padding: 1.25rem 1.5rem;
-                border-bottom: 1px solid #e9ecef;
+                border-bottom: 2px solid var(--accent-color);
             }
 
             .order-header .order-number {
@@ -137,41 +147,48 @@
 
             .order-total {
                 font-size: 1.3rem;
-                color: var(--primary-color);
+                color: var(--primary-dark);
+                font-weight: 700;
             }
 
             .badge-status {
                 padding: 0.5rem 1rem;
-                border-radius: 20px;
+                border-radius: 25px;
                 font-weight: 600;
                 font-size: 0.85rem;
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.1);
             }
 
             .status-pending {
-                background-color: #fff3cd;
-                color: #856404;
+                background: linear-gradient(135deg, #FFE5B4 0%, #FFD9A0 100%);
+                color: #A0826D;
             }
 
             .status-processing {
-                background-color: #cfe2ff;
-                color: #084298;
+                background: linear-gradient(135deg, #C5E3F6 0%, #B3D9F2 100%);
+                color: #5C8AA6;
             }
 
             .status-shipping {
-                background-color: #d1e7dd;
-                color: #0a3622;
+                background: linear-gradient(135deg, #B8E6D5 0%, #A0D9C4 100%);
+                color: #4A9B7F;
             }
 
             .status-delivered {
-                background-color: #d1e7dd;
-                color: #0f5132;
+                background: linear-gradient(135deg, #B8E6D5 0%, #9FDFBB 100%);
+                color: #3D8B64;
             }
 
             .status-cancelled {
-                background-color: #f8d7da;
-                color: #842029;
+                background: linear-gradient(135deg, #FFB4B4 0%, #FFA0A0 100%);
+                color: #B85C5C;
+            }
+            
+            .status-returned {
+                background: linear-gradient(135deg, #E5CCFF 0%, #D4B8F7 100%);
+                color: #8B5FA8;
             }
 
             .order-items {
@@ -181,18 +198,27 @@
             .item-row {
                 display: flex;
                 align-items: center;
-                padding: 1rem;
-                background: #f8f9fa;
-                border-radius: 8px;
+                padding: 1.2rem;
+                background: linear-gradient(135deg, #FFF5F7 0%, #FFFDFE 100%);
+                border-radius: 12px;
                 margin-bottom: 0.75rem;
+                border: 1px solid var(--accent-color);
+                transition: all 0.3s ease;
+            }
+            
+            .item-row:hover {
+                background: linear-gradient(135deg, #FFE4E9 0%, #FFF0F5 100%);
+                border-color: var(--primary-color);
+                transform: translateX(5px);
             }
 
             .item-image {
                 width: 70px;
                 height: 70px;
-                border-radius: 8px;
+                border-radius: 12px;
                 object-fit: cover;
                 margin-right: 1rem;
+                border: 2px solid var(--accent-color);
             }
 
             .item-details {
@@ -206,13 +232,13 @@
             }
 
             .item-quantity {
-                color: #6c757d;
+                color: #9B8B8B;
                 font-size: 0.9rem;
             }
 
             .item-price {
                 font-weight: 700;
-                color: var(--primary-color);
+                color: var(--primary-dark);
                 font-size: 1.1rem;
             }
 
@@ -221,14 +247,15 @@
                 gap: 0.75rem;
                 margin-top: 1rem;
                 padding-top: 1rem;
-                border-top: 1px solid #e9ecef;
+                border-top: 2px solid var(--accent-color);
             }
 
             .btn-custom {
-                border-radius: 8px;
-                padding: 0.5rem 1.25rem;
+                border-radius: 25px;
+                padding: 0.6rem 1.5rem;
                 font-weight: 600;
                 transition: all 0.3s ease;
+                box-shadow: 0 2px 8px rgba(255, 182, 193, 0.2);
             }
 
             .btn-primary-custom {
@@ -239,18 +266,21 @@
 
             .btn-primary-custom:hover {
                 transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(234, 76, 137, 0.4);
+                box-shadow: 0 4px 15px rgba(255, 182, 193, 0.4);
+                background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
             }
 
             .btn-outline-custom {
                 border: 2px solid var(--primary-color);
-                color: var(--primary-color);
+                color: var(--primary-dark);
                 background: white;
             }
 
             .btn-outline-custom:hover {
-                background: var(--primary-color);
+                background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
                 color: white;
+                border-color: var(--primary-color);
+                transform: translateY(-2px);
             }
 
             .delivery-tracking {
@@ -341,32 +371,104 @@
                 text-align: center;
                 padding: 4rem 2rem;
                 background: white;
-                border-radius: 12px;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+                border-radius: 16px;
+                box-shadow: 0 4px 12px rgba(255, 182, 193, 0.15);
+                border: 2px solid var(--accent-color);
             }
 
             .empty-state i {
                 font-size: 5rem;
-                color: #dee2e6;
+                color: var(--accent-color);
                 margin-bottom: 1.5rem;
             }
 
             .empty-state h3 {
                 font-weight: 700;
                 margin-bottom: 1rem;
+                color: var(--dark-color);
             }
 
             .empty-state p {
-                color: #6c757d;
+                color: #9B8B8B;
                 margin-bottom: 2rem;
             }
 
             .filter-section {
                 background: white;
                 padding: 1.5rem;
-                border-radius: 12px;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+                border-radius: 16px;
+                box-shadow: 0 4px 12px rgba(255, 182, 193, 0.15);
                 margin-bottom: 2rem;
+                border: 2px solid var(--accent-color);
+            }
+            
+            /* Status Tabs Styling - FULL WIDTH */
+            .status-tabs-container {
+                background: white;
+                border-radius: 16px;
+                box-shadow: 0 4px 12px rgba(255, 182, 193, 0.15);
+                overflow: hidden;
+                margin-bottom: 0.75rem;
+                border: 2px solid var(--accent-color);
+            }
+            
+            .status-tabs {
+                border-bottom: 3px solid var(--accent-color);
+                padding: 0;
+                margin: 0;
+                display: flex;
+                flex-wrap: wrap; /* Changed from nowrap to wrap */
+                justify-content: space-between; /* Distribute evenly */
+                width: 100%;
+            }
+            
+            .status-tabs::-webkit-scrollbar {
+                height: 3px;
+            }
+            
+            .status-tabs::-webkit-scrollbar-track {
+                background: var(--bg-pink);
+            }
+            
+            .status-tabs::-webkit-scrollbar-thumb {
+                background: var(--primary-color);
+                border-radius: 10px;
+            }
+            
+            .status-tabs .nav-item {
+                flex: 1 1 auto; /* Changed to flex-grow to fill available space */
+                margin: 0;
+                min-width: 120px; /* Minimum width for readability */
+            }
+            
+            .status-tabs .nav-link {
+                color: #9B8B8B;
+                font-weight: 600;
+                padding: 1rem 0.75rem;
+                border: none;
+                background: transparent;
+                border-bottom: 3px solid transparent;
+                transition: all 0.3s ease;
+                white-space: nowrap;
+                cursor: pointer;
+                width: 100%; /* Full width of nav-item */
+                text-align: center;
+            }
+            
+            .status-tabs .nav-link:hover {
+                color: var(--primary-dark);
+                background: linear-gradient(135deg, #FFF0F5 0%, #FFE4E9 100%);
+            }
+            
+            .status-tabs .nav-link.active {
+                color: var(--primary-dark);
+                background: linear-gradient(135deg, var(--bg-pink) 0%, var(--accent-color) 100%);
+                border-bottom-color: var(--primary-color);
+                font-weight: 700;
+            }
+            
+            .status-tabs .nav-link.active:hover {
+                background: linear-gradient(135deg, var(--accent-color) 0%, var(--bg-pink) 100%);
             }
 
             .modal-header {
@@ -446,44 +548,72 @@
 
         <!-- Main Content -->
         <div class="container pb-5">
-            <!-- Filter Section -->
+            <!-- Status Tabs Navigation -->
+            <div class="status-tabs-container mb-3">
+                <ul class="nav nav-tabs status-tabs" id="statusTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link ${empty param.status ? 'active' : ''}" 
+                                onclick="filterByStatus('')" 
+                                type="button">
+                            All Status
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link ${param.status == 'Pending' ? 'active' : ''}" 
+                                onclick="filterByStatus('Pending')" 
+                                type="button">
+                            Pending
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link ${param.status == 'Processing' ? 'active' : ''}" 
+                                onclick="filterByStatus('Delivered')" 
+                                type="button">
+                            Delivered
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link ${param.status == 'Shipping' ? 'active' : ''}" 
+                                onclick="filterByStatus('Shipped')" 
+                                type="button">
+                            Shipped
+                        </button>
+                    </li>
+                    
+                </ul>
+            </div>
+
+            <!-- Date Filter Section -->
             <div class="filter-section">
                 <div class="row align-items-center">
                     <div class="col-md-8">
                         <div class="row g-3">
-                            <!-- Status -->
                             <div class="col-md-4">
-                                <select class="form-select" id="statusFilter">
-                                    <option value="">All Status</option>
-                                    <option value="Pending"    ${param.status == 'Pending' ? 'selected' : ''}>Pending</option>
-                                    <option value="Processing" ${param.status == 'Processing' ? 'selected' : ''}>Processing</option>
-                                    <option value="Shipping"   ${param.status == 'Shipping' ? 'selected' : ''}>Shipping</option>
-                                    <option value="Delivered"  ${param.status == 'Delivered' ? 'selected' : ''}>Delivered</option>
-                                    <option value="Cancelled"  ${param.status == 'Cancelled' ? 'selected' : ''}>Cancelled</option>
-                                </select>
+                                <label for="dateFrom" class="form-label small text-muted">Từ ngày</label>
+                                <input type="date" 
+                                       class="form-control" 
+                                       id="dateFrom" 
+                                       value="${param.dateFrom}"
+                                       placeholder="Từ ngày">
                             </div>
-
-                            <!-- From Date -->
                             <div class="col-md-4">
-                                <input type="date"
-                                       class="form-control"
-                                       id="dateFrom"
-                                       value="${param.dateFrom}">
+                                <label for="dateTo" class="form-label small text-muted">Đến ngày</label>
+                                <input type="date" 
+                                       class="form-control" 
+                                       id="dateTo" 
+                                       value="${param.dateTo}"
+                                       placeholder="Đến ngày">
                             </div>
-
-                            <!-- To Date -->
-                            <div class="col-md-4">
-                                <input type="date"
-                                       class="form-control"
-                                       id="dateTo"
-                                       value="${param.dateTo}">
+                            <div class="col-md-4 d-flex align-items-end">
+                                <button class="btn btn-outline-secondary w-100" onclick="clearDateFilter()">
+                                    <i class="bi bi-x-circle"></i> Xóa bộ lọc
+                                </button>
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-4 text-end mt-3 mt-md-0">
-                        <button class="btn btn-primary-custom btn-custom" onclick="applyFilters()">
-                            <i class="bi bi-funnel"></i> Apply Filters
+                        <button class="btn btn-primary-custom btn-custom w-100" onclick="applyDateFilter()">
+                            <i class="bi bi-funnel"></i> Áp dụng
                         </button>
                     </div>
                 </div>
@@ -671,87 +801,115 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
         <script>
-                                                // View order details
-                                                function viewOrderDetails(productName) {
-                                                    const modal = new bootstrap.Modal(document.getElementById('orderDetailsModal'));
-                                                    modal.show();
+            // Filter by status from navbar tabs
+            function filterByStatus(status) {
+                var dateFrom = document.getElementById('dateFrom').value;
+                var dateTo = document.getElementById('dateTo').value;
+                var baseUrl = '<c:out value="${pageContext.request.contextPath}"/>/history';
+                var params = [];
+                
+                if (status) {
+                    params.push('status=' + encodeURIComponent(status));
+                }
+                if (dateFrom) {
+                    params.push('dateFrom=' + encodeURIComponent(dateFrom));
+                }
+                if (dateTo) {
+                    params.push('dateTo=' + encodeURIComponent(dateTo));
+                }
+                
+                var queryString = params.length > 0 ? '?' + params.join('&') : '';
+                window.location.href = baseUrl + queryString;
+            }
+            
+            // Apply date filter
+            function applyDateFilter() {
+                var status = '${param.status}' || '';
+                var dateFrom = document.getElementById('dateFrom').value;
+                var dateTo = document.getElementById('dateTo').value;
+                var baseUrl = '<c:out value="${pageContext.request.contextPath}"/>/history';
+                var params = [];
+                
+                if (status) {
+                    params.push('status=' + encodeURIComponent(status));
+                }
+                if (dateFrom) {
+                    params.push('dateFrom=' + encodeURIComponent(dateFrom));
+                }
+                if (dateTo) {
+                    params.push('dateTo=' + encodeURIComponent(dateTo));
+                }
+                
+                var queryString = params.length > 0 ? '?' + params.join('&') : '';
+                window.location.href = baseUrl + queryString;
+            }
+            
+            // Clear date filter
+            function clearDateFilter() {
+                var status = '${param.status}' || '';
+                var baseUrl = '<c:out value="${pageContext.request.contextPath}"/>/history';
+                
+                if (status) {
+                    window.location.href = baseUrl + '?status=' + encodeURIComponent(status);
+                } else {
+                    window.location.href = baseUrl;
+                }
+            }
+            
+            // View order details
+            function viewOrderDetails(productName) {
+                const modal = new bootstrap.Modal(document.getElementById('orderDetailsModal'));
+                modal.show();
 
-                                                    document.getElementById('modalOrderDetails').innerHTML = `
+                document.getElementById('modalOrderDetails').innerHTML = `
                     <div class="text-center py-3">
                         <h6>Chi tiết đơn hàng: ${productName}</h6>
                         <p class="text-muted">Đang phát triển tính năng này...</p>
                     </div>
                 `;
-                                                }
+            }
 
-                                                // Track order / Rate product
-                                                function trackOrder(productName) {
-                                                    alert('Đánh giá sản phẩm: ' + productName);
-                                                    // TODO: Implement rating functionality
-                                                }
+            // Track order / Rate product
+            function trackOrder(productName) {
+                alert('Đánh giá sản phẩm: ' + productName);
+                // TODO: Implement rating functionality
+            }
 
-                                                // Contact shop
-                                                function contactShop(shopName) {
-                                                    alert('Liên hệ với: ' + shopName);
-                                                    // TODO: Implement contact shop functionality
-                                                }
+            // Contact shop
+            function contactShop(shopName) {
+                alert('Liên hệ với: ' + shopName);
+                // TODO: Implement contact shop functionality
+            }
 
-                                                // Reorder
-                                                function reorder(productName) {
-                                                    if (confirm('Bạn có muốn mua lại sản phẩm "' + productName + '" không?')) {
-                                                        alert('Đã thêm vào giỏ hàng!');
-                                                        // TODO: Implement reorder functionality
-                                                    }
-                                                }
+            // Reorder
+            function reorder(productName) {
+                if (confirm('Bạn có muốn mua lại sản phẩm "' + productName + '" không?')) {
+                    alert('Đã thêm vào giỏ hàng!');
+                    // TODO: Implement reorder functionality
+                }
+            }
 
-                                                // Apply filters
+            // Smooth scroll
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({behavior: 'smooth'});
+                    }
+                });
+            });
 
-                                                function applyFilters() {
-                                                    var status = document.getElementById('statusFilter').value;
-                                                    var dateFrom = document.getElementById('dateFrom').value;
-                                                    var dateTo = document.getElementById('dateTo').value;
-
-                                                    var params = [];
-
-                                                    if (status) {
-                                                        params.push('status=' + encodeURIComponent(status));
-                                                    }
-                                                    if (dateFrom) {
-                                                        params.push('dateFrom=' + encodeURIComponent(dateFrom));
-                                                    }
-                                                    if (dateTo) {
-                                                        params.push('dateTo=' + encodeURIComponent(dateTo));
-                                                    }
-
-                                                    var baseUrl = '<c:out value="${pageContext.request.contextPath}"/>/history';
-                                                    var queryString = params.length > 0 ? '?' + params.join('&') : '';
-
-                                                    window.location.href = baseUrl + queryString;
-                                                }
-
-
-
-                                                // Smooth scroll
-                                                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                                                    anchor.addEventListener('click', function (e) {
-                                                        e.preventDefault();
-                                                        const target = document.querySelector(this.getAttribute('href'));
-                                                        if (target) {
-                                                            target.scrollIntoView({behavior: 'smooth'});
-                                                        }
-                                                    });
-                                                });
-
-                                                // Auto-hide alerts after 3 seconds
-                                                document.addEventListener('DOMContentLoaded', function () {
-                                                    const alerts = document.querySelectorAll('.alert');
-                                                    alerts.forEach(alert => {
-                                                        setTimeout(() => {
-                                                            alert.style.opacity = '0';
-                                                            setTimeout(() => alert.remove(), 300);
-                                                        }, 3000);
-                                                    });
-                                                });
+            // Auto-hide alerts after 3 seconds
+            document.addEventListener('DOMContentLoaded', function () {
+                const alerts = document.querySelectorAll('.alert');
+                alerts.forEach(alert => {
+                    setTimeout(() => {
+                        alert.style.opacity = '0';
+                        setTimeout(() => alert.remove(), 300);
+                    }, 3000);
+                });
+            });
         </script>
     </body>
 </html>

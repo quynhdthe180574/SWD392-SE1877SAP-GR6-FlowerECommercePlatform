@@ -16,6 +16,7 @@ import java.time.ZoneId;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import entity.User;
 
 @WebServlet("/history")
 public class OrderHistoryController extends HttpServlet {
@@ -35,7 +36,6 @@ public class OrderHistoryController extends HttpServlet {
         }
 
         int userId = user.getUser_id();
-
         // Lấy toàn bộ order items của user
         List<OrderItem> orderItems = orderService.getOrderItems(userId);
 
