@@ -4,6 +4,7 @@ src/java/constant/Iconstant.java
 /.idea
 /.smarttomcat
 /conf
+/lib
 /logs
 /out
 /work
@@ -11,3 +12,5 @@ EasyQuiz.iml
 /${build.web.dir}
 /dist/
 src/java/dal/DBContext.java
+/FlowerShop/build/
+/FlowerShop/nbproject/private/
