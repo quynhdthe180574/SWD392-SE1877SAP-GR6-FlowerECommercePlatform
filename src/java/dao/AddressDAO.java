@@ -55,22 +55,31 @@ public class AddressDAO {
 // THÊM VÀO CUỐI CLASS
 
     public void addAddress(Address addr) {
-        String sql = "INSERT INTO Address (user_id, receiver_name, phone, full_address, is_default) VALUES (?, ?, ?, ?, ?)";
-        try (Connection conn = new DBConnection().getConnection(); PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setInt(1, addr.getUserId());
-            ps.setString(2, addr.getReceiverName());
-            ps.setString(3, addr.getPhone());
-            ps.setString(4, addr.getFullAddress());
-            ps.setBoolean(5, addr.isDefault());
-            ps.executeUpdate();
+    String sql = "INSERT INTO Address (user_id, receiver_name, phone, full_address, is_default) VALUES (?, ?, ?, ?, ?)";
+    try (Connection conn = new DBConnection().getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            try (ResultSet rs = ps.getGeneratedKeys()) {
-                if (rs.next()) {
-                    addr.setAddressId(rs.getInt(1));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        ps.setInt(1, addr.getUserId());
+        ps.setString(2, addr.getReceiverName());
+        ps.setString(3, addr.getPhone());
+        ps.setString(4, addr.getFullAddress());
+        ps.setBoolean(5, addr.isDefault());
+
+        int rows = ps.executeUpdate();
+        if (rows == 0) {
+            throw new SQLException("Thêm địa chỉ thất bại");
         }
+        try (ResultSet rs = ps.getGeneratedKeys()) {
+            if (rs.next()) {
+                addr.setAddressId(rs.getInt(1)); // Lấy ID thật từ DB
+            } else {
+                throw new SQLException("Không lấy được ID sau khi thêm");
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        throw new RuntimeException("Lỗi khi thêm địa chỉ: " + e.getMessage());
+    }
+
     }
 }

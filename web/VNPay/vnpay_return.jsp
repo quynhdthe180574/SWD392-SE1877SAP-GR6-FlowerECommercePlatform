@@ -117,7 +117,7 @@
                transition: all 0.3s ease;">
                 🏠 Back to Home
             </a>
-            <a href="orderHistory.jsp"
+            <a href="${pageContext.request.contextPath}/history"
                style="display: inline-block; background-color: #ffb3d9; color: white;
                padding: 12px 24px; border-radius: 25px; text-decoration: none;
                font-size: 16px; font-weight: 600; margin: 8px;

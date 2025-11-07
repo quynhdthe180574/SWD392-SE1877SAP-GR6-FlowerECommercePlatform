@@ -433,9 +433,12 @@
                                         <fmt:formatNumber value="${total + 30000}" type="currency" currencySymbol="₫"/>
                                     </strong>
                                 </div>
-                        <button class="btn-checkout w-100 d-flex align-items-center justify-content-center" onclick="proceedToCheckout()">
-                            <i class="bi bi-credit-card me-2"></i> Thanh toán ngay
-                        </button>
+                         <form action="${pageContext.request.contextPath}/VNPay_Payment" method="POST"> 
+                                    <input type="hidden" name="amount" value="${total + 30000}"> 
+                                    <button class="btn-checkout w-100 d-flex align-items-center justify-content-center"> 
+                                        <i class="bi bi-credit-card me-2">
+
+                                        </i> Thanh toán ngay </button> </form>
                                 <div class="text-center mt-3">
                                     <small class="text-muted">
                                         <i class="bi bi-truck me-1"></i> Miễn phí vận chuyển cho đơn trên 500,000₫
