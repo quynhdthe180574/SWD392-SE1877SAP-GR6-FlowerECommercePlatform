@@ -11,8 +11,7 @@ public class AddressDAO {
     public List<Address> getAddressesByUserId(int userId) {
         List<Address> list = new ArrayList<>();
         String sql = "SELECT address_id, receiver_name, phone, full_address, is_default FROM Address WHERE user_id = ?";
-        try (Connection conn = new DBConnection().getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = new DBConnection().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, userId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -34,8 +33,7 @@ public class AddressDAO {
 
     public Address getDefaultAddress(int userId) {
         String sql = "SELECT TOP 1 address_id, receiver_name, phone, full_address FROM Address WHERE user_id = ? AND is_default = 1";
-        try (Connection conn = new DBConnection().getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = new DBConnection().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, userId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -52,5 +50,27 @@ public class AddressDAO {
             e.printStackTrace();
         }
         return null;
+    }
+    // src/main/java/dao/AddressDAO.java
+// THÊM VÀO CUỐI CLASS
+
+    public void addAddress(Address addr) {
+        String sql = "INSERT INTO Address (user_id, receiver_name, phone, full_address, is_default) VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = new DBConnection().getConnection(); PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(1, addr.getUserId());
+            ps.setString(2, addr.getReceiverName());
+            ps.setString(3, addr.getPhone());
+            ps.setString(4, addr.getFullAddress());
+            ps.setBoolean(5, addr.isDefault());
+            ps.executeUpdate();
+
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    addr.setAddressId(rs.getInt(1));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

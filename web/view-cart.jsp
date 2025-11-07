@@ -144,12 +144,13 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(39, 174, 96, 0.3);
         }
-        .summary-box {
+        .summary-box, .address-box {
             background: linear-gradient(45deg, #fdf2f8, #fce7f3);
             border-radius: 16px;
             padding: 2rem;
             border: 1px solid rgba(251, 207, 232, 0.5);
             box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            margin-bottom: 1.5rem;
         }
         .product-name {
             color: #831843;
@@ -213,6 +214,26 @@
             background: #fdf2f8;
             transform: scale(1.1);
         }
+        .form-label {
+            font-weight: 600;
+            color: #FCECF5;
+        }
+        .form-control:focus {
+            border-color: #be185d;
+            box-shadow: 0 0 0 0.2rem rgba(190, 24, 93, 0.15);
+        }
+        .address-radio {
+            padding: 0.75rem;
+            border: 1px solid #f9a8d4;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .address-radio:hover, .address-radio.checked {
+            border-color: #be185d;
+            background: #fdf2f8;
+        }
         @media (max-width: 768px) {
             .cart-img, .img-placeholder {
                 width: 100px;
@@ -234,7 +255,7 @@
         <div class="row align-items-center">
             <div class="col">
                 <h1 class="mb-0 d-flex align-items-center">
-                    <i class="bi bi-cart3 me-3" style="font-size: 2.2rem;"></i> 
+                    <i class="bi bi-cart3 me-3" style="font-size: 2.2rem;"></i>
                     <div>
                         <div>Giỏ hàng của bạn</div>
                         <small class="fs-6 opacity-75">Những bông hoa đẹp nhất cho người bạn yêu thương</small>
@@ -254,18 +275,19 @@
     <c:choose>
         <c:when test="${not empty cartItems}">
             <div class="row">
+                <!-- DANH SÁCH SẢN PHẨM -->
                 <div class="col-lg-8">
                     <c:forEach var="item" items="${cartItems}">
                         <div class="cart-item d-flex align-items-center">
-                            <!-- Phần hiển thị ảnh đã sửa -->
+                            <!-- Ảnh sản phẩm -->
                             <c:choose>
                                 <c:when test="${not empty item.imageUrl and item.imageUrl != ''}">
                                     <c:choose>
                                         <c:when test="${item.imageUrl.startsWith('http')}">
-                                            <img src="${item.imageUrl}" class="cart-img me-4" alt="${item.productName}">
+                                            <img src="${item.imageUrl}" class="cart-img me-4" alt="${item.productName}" onerror="this.src='https://via.placeholder.com/120x120?text=Hoa'">
                                         </c:when>
                                         <c:otherwise>
-                                            <img src="${pageContext.request.contextPath}${item.imageUrl}" class="cart-img me-4" alt="${item.productName}">
+                                            <img src="${pageContext.request.contextPath}${item.imageUrl}" class="cart-img me-4" alt="${item.productName}" onerror="this.src='https://via.placeholder.com/120x120?text=Hoa'">
                                         </c:otherwise>
                                     </c:choose>
                                 </c:when>
@@ -275,15 +297,15 @@
                                     </div>
                                 </c:otherwise>
                             </c:choose>
-                            
+
+                            <!-- Thông tin sản phẩm -->
                             <div class="flex-grow-1">
                                 <h5 class="product-name mb-2">${item.productName}</h5>
                                 <p class="shop-info mb-2">
                                     <i class="bi bi-shop me-1"></i> Cửa hàng hoa tươi
                                 </p>
                                 <p class="price-info mb-3">
-                                    <fmt:formatNumber value="${item.price}" type="currency" currencySymbol="₫"/>
-                                    x ${item.quantity} = 
+                                    <fmt:formatNumber value="${item.price}" type="currency" currencySymbol="₫"/> x ${item.quantity} =
                                     <strong><fmt:formatNumber value="${item.total}" type="currency" currencySymbol="₫"/></strong>
                                 </p>
                                 <div class="quantity-controls">
@@ -296,7 +318,7 @@
                                     <button class="btn-quantity" onclick="updateQuantity(${item.productId}, ${item.quantity + 1})">
                                         <i class="bi bi-plus"></i>
                                     </button>
-                                    <button class="btn-remove ms-3" onclick="removeFromCart(${item.cartId})" title="Xóa sản phẩm">
+                                    <button class="btn-remove ms-3" onclick="removeFromCart(${item.productId})" title="Xóa sản phẩm">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </div>
@@ -304,37 +326,120 @@
                         </div>
                     </c:forEach>
                 </div>
+
+                <!-- ĐỊA CHỈ + TỔNG KẾT -->
                 <div class="col-lg-4">
+                    <!-- ĐỊA CHỈ GIAO HÀNG -->
+                    <div class="address-box">
+                        <h4 class="mb-4" style="color: #831843;">
+                            <i class="bi bi-geo-alt-fill me-2"></i> Địa chỉ giao hàng
+                        </h4>
+                        <form id="addressForm">
+                            <!-- Danh sách địa chỉ đã lưu -->
+                            <div id="addressList" class="mb-3">
+                                <c:choose>
+                                    <c:when test="${not empty userAddresses}">
+                                        <c:forEach var="addr" items="${userAddresses}">
+                                            <div class="address-radio form-check ${addr.addressId == sessionScope.selectedAddressId ? 'checked' : ''}">
+                                                <input class="form-check-input d-none" type="radio" name="addressRadio" 
+                                                       id="addr${addr.addressId}" value="${addr.addressId}"
+                                                       ${addr.addressId == sessionScope.selectedAddressId ? 'checked' : ''}>
+                                                <label class="form-check-label w-100 p-0" for="addr${addr.addressId}">
+                                                    <div class="p-3">
+                                                        <div class="d-flex justify-content-between align-items-start mb-1">
+                                                            <strong>${addr.receiverName}</strong>
+                                                            <c:if test="${addr.isDefault}">
+                                                                <span class="badge bg-success">Mặc định</span>
+                                                            </c:if>
+                                                        </div>
+                                                        <div class="text-muted mb-1">${addr.phone}</div>
+                                                        <div class="text-muted small">${addr.fullAddress}</div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </c:forEach>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="text-center text-muted py-3">
+                                            <p class="mb-0">Nhập địa chỉ giao hàng bên dưới</p>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
+
+                                <!-- HIỂN THỊ ĐỊA CHỈ TẠM (nếu chưa đăng nhập) -->
+                                <c:if test="${sessionScope.tempAddress != null && sessionScope.selectedAddressId == -1}">
+                                    <div class="address-radio form-check checked">
+                                        <input class="form-check-input d-none" type="radio" name="addressRadio" 
+                                               id="addrTemp" value="-1" checked>
+                                        <label class="form-check-label w-100 p-0" for="addrTemp">
+                                            <div class="p-3">
+                                                <div class="d-flex justify-content-between align-items-start mb-1">
+                                                    <strong>${sessionScope.tempAddress.receiverName}</strong>
+                                                </div>
+                                                <div class="text-muted mb-1">${sessionScope.tempAddress.phone}</div>
+                                                <div class="text-muted small">${sessionScope.tempAddress.fullAddress}</div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </c:if>
+                            </div>
+
+                            <!-- Form thêm địa chỉ mới -->
+                            <div class="collapse" id="newAddressForm">
+                                <hr>
+                                <div class="mb-3">
+                                    <label class="form-label">Họ và tên</label>
+                                    <input type="text" class="form-control" id="receiverName" placeholder="Nguyễn Văn A" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Số điện thoại</label>
+                                    <input type="tel" class="form-control" id="phone" placeholder="0901234567" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Địa chỉ chi tiết</label>
+                                    <textarea class="form-control" id="fullAddress" rows="2" placeholder="Số nhà, đường, phường, quận, thành phố" required></textarea>
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="isDefault">
+                                    <label class="form-check-label" for="isDefault">Đặt làm địa chỉ mặc định</label>
+                                </div>
+                            </div>
+
+                            <button type="button" class="btn btn-outline-primary w-100 mb-2" data-bs-toggle="collapse" data-bs-target="#newAddressForm">
+                                <i class="bi bi-plus-circle me-2"></i> Thêm địa chỉ mới
+                            </button>
+
+                            <button type="button" class="btn btn-primary w-100" onclick="saveAddress()">
+                                <i class="bi bi-check-circle me-2"></i> Xác nhận địa chỉ
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- TỔNG KẾT -->
                     <div class="summary-box">
                         <h4 class="mb-4" style="color: #831843;">
                             <i class="bi bi-receipt me-2"></i>Tổng kết đơn hàng
                         </h4>
-                        
                         <div class="d-flex justify-content-between mb-3">
                             <span>Tổng tiền hàng:</span>
                             <strong class="price-info">
                                 <fmt:formatNumber value="${total}" type="currency" currencySymbol="₫"/>
                             </strong>
                         </div>
-                        
                         <div class="d-flex justify-content-between mb-3">
                             <span>Phí vận chuyển:</span>
                             <strong class="price-info">30,000₫</strong>
                         </div>
-                        
                         <hr>
-                        
                         <div class="d-flex justify-content-between mb-4">
                             <span class="fw-bold">Thành tiền:</span>
                             <strong class="total-price">
                                 <fmt:formatNumber value="${total + 30000}" type="currency" currencySymbol="₫"/>
                             </strong>
                         </div>
-                        
-                        <button class="btn-checkout w-100 d-flex align-items-center justify-content-center">
+                        <button class="btn-checkout w-100 d-flex align-items-center justify-content-center" onclick="proceedToCheckout()">
                             <i class="bi bi-credit-card me-2"></i> Thanh toán ngay
                         </button>
-                        
                         <div class="text-center mt-3">
                             <small class="text-muted">
                                 <i class="bi bi-truck me-1"></i> Miễn phí vận chuyển cho đơn trên 500,000₫
@@ -376,14 +481,12 @@
     const toast = new bootstrap.Toast(toastEl);
     const toastMessage = document.getElementById('toastMessage');
 
+    // === QUẢN LÝ GIỎ HÀNG ===
     function updateQuantity(productId, newQuantity) {
         if (newQuantity < 1) newQuantity = 1;
         if (newQuantity > 99) newQuantity = 99;
-        
         const input = document.querySelector(`input[onchange*="${productId}"]`);
-        if (input) {
-            input.value = newQuantity;
-        }
+        if (input) input.value = newQuantity;
         updateCart(productId, newQuantity);
     }
 
@@ -392,13 +495,17 @@
             alert("Số lượng phải từ 1 đến 99!");
             return;
         }
-
-        fetch('${pageContext.request.contextPath}/update-cart', {
+        const url = '${pageContext.request.contextPath}/update-cart';
+        console.log("Cập nhật giỏ hàng →", url);
+        fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: 'productId=' + productId + '&quantity=' + quantity
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) throw new Error('Mạng lỗi: ' + response.status);
+            return response.json();
+        })
         .then(data => {
             if (data.success) {
                 toastMessage.innerHTML = 'Đã cập nhật giỏ hàng!';
@@ -410,21 +517,25 @@
             }
         })
         .catch(err => {
-            console.error('Lỗi fetch:', err);
+            console.error('Lỗi fetch update-cart:', err);
             alert('Lỗi kết nối. Vui lòng thử lại!');
             location.reload();
         });
     }
 
-    function removeFromCart(cartId) {
+    function removeFromCart(productId) {
         if (!confirm('Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?')) return;
-        
-        fetch('${pageContext.request.contextPath}/remove-from-cart', {
+        const url = '${pageContext.request.contextPath}/remove-from-cart';
+        console.log("Xóa sản phẩm →", url);
+        fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: 'cartId=' + cartId
+            body: 'productId=' + productId
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) throw new Error('Mạng lỗi: ' + response.status);
+            return response.json();
+        })
         .then(data => {
             if (data.success) {
                 toastMessage.innerHTML = 'Đã xóa sản phẩm khỏi giỏ hàng!';
@@ -436,12 +547,79 @@
             }
         })
         .catch(err => {
-            console.error('Lỗi fetch:', err);
+            console.error('Lỗi fetch remove-from-cart:', err);
             alert('Lỗi kết nối. Vui lòng thử lại!');
             location.reload();
         });
     }
 
+    // === QUẢN LÝ ĐỊA CHỈ ===
+    function saveAddress() {
+        const selected = document.querySelector('input[name="addressRadio"]:checked');
+        const isNew = document.getElementById('newAddressForm').classList.contains('show');
+        let data = {};
+
+        if (isNew) {
+            const name = document.getElementById('receiverName').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const addr = document.getElementById('fullAddress').value.trim();
+            const isDefault = document.getElementById('isDefault').checked ? '1' : '0';
+
+            if (!name || !phone || !addr) {
+                alert('Vui lòng điền đầy đủ họ tên, số điện thoại và địa chỉ!');
+                return;
+            }
+            if (!/^0[3-9]\d{8}$/.test(phone)) {
+                alert('Số điện thoại không hợp lệ! (090xxxxxxx)');
+                return;
+            }
+
+            data = { action: 'add', receiverName: name, phone: phone, fullAddress: addr, isDefault: isDefault };
+        } else if (!selected) {
+            alert('Vui lòng chọn một địa chỉ giao hàng!');
+            return;
+        } else {
+            data = { action: 'select', addressId: selected.value };
+        }
+
+        const url = '${pageContext.request.contextPath}/address-servlet';
+        console.log("Gửi địa chỉ →", url, data);
+        
+
+        fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(data)
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Mạng lỗi: ' + response.status);
+            return response.json();
+        })
+        .then(result => {
+            if (result.success) {
+                toastMessage.innerHTML = isNew ? 'Đã thêm địa chỉ mới!' : 'Đã chọn địa chỉ giao hàng!';
+                toast.show();
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                alert(result.message || 'Lỗi hệ thống');
+            }
+        })
+        .catch(err => {
+            console.error('Lỗi fetch address-servlet:', err);
+            alert('Lỗi kết nối. Vui lòng thử lại!');
+        });
+    }
+
+    function proceedToCheckout() {
+        const selected = document.querySelector('input[name="addressRadio"]:checked');
+        if (!selected) {
+            alert('Vui lòng chọn địa chỉ giao hàng trước khi thanh toán!');
+            return;
+        }
+        window.location.href = '${pageContext.request.contextPath}/checkout?addressId=' + selected.value;
+    }
+
+    // Auto hide toast
     toastEl.addEventListener('shown.bs.toast', () => {
         setTimeout(() => toast.hide(), 3000);
     });

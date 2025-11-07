@@ -1,5 +1,8 @@
+// src/main/java/controller/ViewCartServlet.java
 package controller;
 
+import dao.AddressDAO;
+import entity.Address;
 import entity.CartItem;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,25 +17,25 @@ import service.ProductService;
 public class ViewCartServlet extends HttpServlet {
     private final CartService cartService = new CartService();
     private final ProductService productService = new ProductService();
+    private final AddressDAO addressDAO = new AddressDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         HttpSession session = request.getSession();
+        Integer userId = (Integer) session.getAttribute("userId"); // Có thể null
+
+        // === GIỎ HÀNG ===
         Map<Integer, Integer> cart = (Map<Integer, Integer>) session.getAttribute("cart");
         List<CartItem> cartItems = new ArrayList<>();
         double total = 0;
-        int cartSize = 0;
-
-        System.out.println("ViewCartServlet: Session ID - " + session.getId());
-        System.out.println("ViewCartServlet: Cart from session - " + cart);
 
         if (cart != null && !cart.isEmpty()) {
             for (Map.Entry<Integer, Integer> entry : cart.entrySet()) {
                 int productId = entry.getKey();
                 int quantity = entry.getValue();
                 entity.Product product = productService.getProductById(productId);
-                System.out.println("ViewCartServlet: ProductID " + productId + " - Product: " + (product != null ? product.getName() : "null"));
 
                 if (product != null) {
                     CartItem cartItem = new CartItem();
@@ -43,19 +46,21 @@ public class ViewCartServlet extends HttpServlet {
                     cartItem.setImageUrl(product.getImageUrl());
                     cartItems.add(cartItem);
                     total += cartItem.getTotal();
-                    cartSize += quantity;
-                } else {
-                    System.out.println("ViewCartServlet: Skipping ProductID " + productId + " because product is null");
                 }
             }
-        } else {
-            System.out.println("ViewCartServlet: Cart is null or empty");
         }
 
+        // === LẤY ĐỊA CHỈ (chỉ nếu đã đăng nhập) ===
+        List<Address> userAddresses = new ArrayList<>();
+        if (userId != null) {
+            userAddresses = addressDAO.getAddressesByUserId(userId);
+        }
+
+        // === SET DATA ===
         request.setAttribute("cartItems", cartItems);
-        request.setAttribute("cartSize", cartSize);
         request.setAttribute("total", total);
-        System.out.println("ViewCartServlet: CartItems size - " + cartItems.size() + ", Total - " + total + ", CartSize - " + cartSize);
-        request.getRequestDispatcher("view-cart.jsp").forward(request, response);
+        request.setAttribute("userAddresses", userAddresses);
+
+        request.getRequestDispatcher("/view-cart.jsp").forward(request, response);
     }
 }
