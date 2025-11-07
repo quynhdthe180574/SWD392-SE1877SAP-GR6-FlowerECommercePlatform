@@ -29,7 +29,8 @@ public class OrderDAO {
             VALUES (?, ?, GETDATE(), ?, ?, 'pending');
             SELECT SCOPE_IDENTITY();
             """;
-        try (Connection conn = new DBConnection().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = new DBConnection().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, userId);
             ps.setInt(2, addressId);
             ps.setDouble(3, shipFee);

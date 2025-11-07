@@ -71,11 +71,54 @@
         <servlet-class>controller.payment.VNPayReturn</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>VNPay_Payment</servlet-name>
-        <url-pattern>/VNPay_Payment</url-pattern>
+        <servlet-name>ProductListServlet</servlet-name>
+        <url-pattern>/product-list</url-pattern>
     </servlet-mapping>
+    
+    <!-- CÁC SERVLET KHÁC -->
+    <servlet>
+        <servlet-name>ProductDetailServlet</servlet-name>
+        <servlet-class>controller.ProductDetailServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
-        <servlet-name>VNPayReturn</servlet-name>
-        <url-pattern>/VNPayReturn</url-pattern>
+        <servlet-name>ProductDetailServlet</servlet-name>
+        <url-pattern>/product-detail</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>ViewCartServlet</servlet-name>
+        <servlet-class>controller.ViewCartServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewCartServlet</servlet-name>
+        <url-pattern>/view-cart</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>RemoveFromCartServlet</servlet-name>
+        <servlet-class>controller.RemoveFromCartServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RemoveFromCartServlet</servlet-name>
+        <url-pattern>/remove-from-cart</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>UpdateCartServlet</servlet-name>
+        <servlet-class>controller.UpdateCartServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateCartServlet</servlet-name>
+        <url-pattern>/update-cart</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>AddToCartServlet</servlet-name>
+        <servlet-class>controller.AddToCartServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddToCartServlet</servlet-name>
+        <url-pattern>/add-to-cart</url-pattern>
+    </servlet-mapping>
+    
 </web-app>
