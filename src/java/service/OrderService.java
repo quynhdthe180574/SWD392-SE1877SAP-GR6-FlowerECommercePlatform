@@ -22,5 +22,7 @@ public class OrderService {
     public boolean addOrderItem(int orderId, int productId, int quantity, double unitPrice) {
         return orderItemDAO.addOrderItem(orderId, productId, quantity, unitPrice);
     }
-   
+    public java.util.List<entity.OrderItem> getOrderItems(int userId) {
+        return orderDAO.getOrderItems(userId);
+    }
 }

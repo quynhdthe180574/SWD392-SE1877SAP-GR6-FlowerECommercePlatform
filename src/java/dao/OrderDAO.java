@@ -1,15 +1,16 @@
-// OrderDAO.java
-package dao;
 
+package dao;
 import entity.Order;
 import entity.Payment;
 import util.DBConnection;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import org.apache.tomcat.dbcp.dbcp2.SQLExceptionList;
-
+import java.util.ArrayList;
+import java.util.List;
+import entity.OrderItem;
+import util.DBContext;
 public class OrderDAO {
-    // PaymentDAO.java - THÊM HÀM NÀY VÀO CUỐI CLASS
 
     private String formatPayDate(String vnpayDate) {
         try {
@@ -99,5 +100,30 @@ public class OrderDAO {
             ps.setInt(2, orderId);
             ps.executeUpdate();
         }
+    }
+
+    public List<OrderItem> getOrderItems(int user_id) {
+        List<OrderItem> orderItems = new ArrayList<>();
+        String sql = "select p.name , oi.quantity , oi.unit_price , o.status , s.shop_name , p.image_url, o.order_date from [Order] o join  OrderItem oi on o.order_id = oi.order_id join Product p on oi.product_id = p.product_id join Shop s on s.shop_id = p.shop_id where o.user_id = ?";
+        try (Connection conn = new DBConnection().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, user_id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String productName = rs.getString("name");
+                int quantity = rs.getInt("quantity");
+                double unitPrice = rs.getDouble("unit_price");
+                String status = rs.getString("status");
+                String shopName = rs.getString("shop_name");
+                String imageUrl = rs.getString("image_url");
+                Date date = rs.getDate("order_date");
+                OrderItem orderItem = new OrderItem(productName, quantity, unitPrice, status, shopName, imageUrl, date);
+                orderItems.add(orderItem);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orderItems;
     }
 }
