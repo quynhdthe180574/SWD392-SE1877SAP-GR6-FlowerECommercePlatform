@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import service.VNPayService;
+import service.PaymentService;
 
 /**
  *
@@ -27,7 +27,7 @@ public class VNPayReturn extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-   private final VNPayService vnPayService = new VNPayService();
+   private final PaymentService vnPayService = new PaymentService();
 
    
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

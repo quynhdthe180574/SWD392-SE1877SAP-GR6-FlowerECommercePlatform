@@ -12,14 +12,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.annotation.WebServlet;
-import service.VNPayService;
+import service.PaymentService;
 /**
  *
  * @author ADMIN
  */
 @WebServlet(name = "VNPay_Payment", urlPatterns = {"/VNPay_Payment"})
 public class VNPay_Payment extends HttpServlet {
-   private final VNPayService vnPayService = new VNPayService();
+   private final PaymentService vnPayService = new PaymentService();
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
