@@ -6,34 +6,20 @@ package entity;
 
 /**
  *
- * @author ADMIN
+ * @author acer
  */
+
 public class Category {
- private int categoryId;
- private String name ;
+    private int category_id;
+    private String name;
+    // Đã XÓA trường 'description'
 
     public Category() {
     }
 
-    public Category(int categoryId, String name) {
-        this.categoryId = categoryId;
-        this.name = name;
-    }
-
-    public int getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
- 
+    // Getters and Setters
+    public int getCategory_id() { return category_id; }
+    public void setCategory_id(int category_id) { this.category_id = category_id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 }

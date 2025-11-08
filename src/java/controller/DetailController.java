@@ -4,7 +4,6 @@
  */
 package controller;
 
-import dao.ProductDAO;
 import entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,14 +11,14 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
+import service.ProductService;
 
 /**
  *
  * @author ADMIN
  */
 public class DetailController extends HttpServlet {
-
+private final ProductService productService = new ProductService();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -34,14 +33,15 @@ public class DetailController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-           int productId = Integer.parseInt(request.getParameter("productId"));
-            request.getSession().setAttribute("urlHistory", "detail?productId="+productId);
-            ProductDAO pdb = new ProductDAO();
-            Product product = pdb.getProductById(productId);
-            List<Product> listLast = pdb.getAllProductsLast();
-            request.setAttribute("product", product);
-            request.setAttribute("listLast", listLast);
-            request.getRequestDispatcher("detail.jsp").forward(request, response);
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet DetailController</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet DetailController at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
@@ -57,7 +57,13 @@ public class DetailController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       // processRequest(request, response);
+       int productId = Integer.parseInt(request.getParameter("productId"));
+       Product p =productService.getProductById(productId);
+       request.setAttribute("list", p);
+       request.getRequestDispatcher("detail.jsp").forward(request, response);
+       
+       
     }
 
     /**

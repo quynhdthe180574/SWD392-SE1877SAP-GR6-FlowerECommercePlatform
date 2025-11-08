@@ -3,105 +3,94 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package controller;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
-import service.ProductService;
 import entity.Product;
-import entity.Category;
-import dao.ProductDAO;
-import dao.CategoryDAO;
+import entity.Shop;
+import service.CategoryService;
+import service.ProductService;
+import service.ShopService;
+
+
 /**
  *
- * @author ADMIN
+ * @author acer
  */
+
+
+
+
+
+// Đảm bảo import đúng package entity và service
+import entity.Category;
+import entity.Product;
+import entity.Shop;
+import service.CategoryService;
+import service.ProductService;
+import service.ShopService;
+
+import java.io.IOException;
+import java.util.List;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet(name = "HomeController", urlPatterns = {"/home", ""})
 public class HomeController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    // Khởi tạo các service cần thiết
+    private ProductService productService = new ProductService();
+    private ShopService shopService = new ShopService();
+    private CategoryService categoryService = new CategoryService(); 
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-             final int PAGE_SIZE = 7;
 
-        List<Category> listCategories = new CategoryDAO().getAllCategories();
-        request.setAttribute("listCategories", listCategories);
-        
-        int page = 1;
-        String pageStr = request.getParameter("page");
-        if (pageStr != null) {
-            page = Integer.parseInt(pageStr);
-        }
-        ProductDAO productDAO = new ProductDAO();
-        ProductService s = new ProductService();
-        List<Product> listProducts = s.getPage(page, PAGE_SIZE);
-        int totalProducts = productDAO.getTotalProducts();
-        int totalPage = totalProducts / PAGE_SIZE; //1
-        if (totalProducts % PAGE_SIZE != 0) {
-            totalPage += 1;
-        }
-        List<Product> p = productDAO.getAllNewProducts();
-        request.setAttribute("p", p);
-        request.setAttribute("page", page);
-        request.setAttribute("totalPage", totalPage);
-        request.setAttribute("listProducts", listProducts);
-        
-        request.getSession().setAttribute("urlHistory", "home");
-        request.getRequestDispatcher("home.jsp").forward(request, response);
-        }
+//        try {
+//            // 1. Lấy dữ liệu sản phẩm mới (thay cho "nổi bật")
+//            List<Product> featuredList = productService.getFeaturedProducts();
+//            
+//            // 2. Lấy dữ liệu shop mới (thay cho "uy tín")
+//            List<Shop> reputableList = shopService.getReputableShops();
+//            
+//            // 3. Lấy danh sách "dịp" (Category) để hiển thị trên thanh tìm kiếm
+//            List<Category> categoryList = categoryService.getAllCategories(); 
+//
+//            // 4. Đặt dữ liệu vào request để gửi cho JSP
+//            request.setAttribute("featuredList", featuredList);
+//            request.setAttribute("reputableList", reputableList);
+//            request.setAttribute("categoryList", categoryList);
+//            
+//            // 5. Chuyển tiếp đến trang home.jsp
+//            request.getRequestDispatcher("home.jsp").forward(request, response);
+//            
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            // (Bạn có thể chuyển hướng đến một trang lỗi)
+//        }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       // processRequest(request, response);
+       List<Product> p = productService.getAllProducts();
+       request.setAttribute("list", p);
+       request.getRequestDispatcher("home.jsp").forward(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }
