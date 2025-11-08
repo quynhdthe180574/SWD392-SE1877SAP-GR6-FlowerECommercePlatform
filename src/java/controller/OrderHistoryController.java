@@ -27,15 +27,15 @@ public class OrderHistoryController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+//        HttpSession session = request.getSession();
+//        User user = (User) session.getAttribute("user");
+//
+//        if (user == null) {
+//            response.sendRedirect("login.jsp");
+//            return;
+//        }
 
-        if (user == null) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
-
-        int userId = user.getUser_id();
+        int userId = 1;
         // Lấy toàn bộ order items của user
         List<OrderItem> orderItems = orderService.getOrderItems(userId);
 

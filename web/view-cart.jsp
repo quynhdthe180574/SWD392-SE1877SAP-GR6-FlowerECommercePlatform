@@ -257,14 +257,14 @@
                         <h1 class="mb-0 d-flex align-items-center">
                             <i class="bi bi-cart3 me-3" style="font-size: 2.2rem;"></i> 
                             <div>
-                                <div>Giỏ hàng của bạn</div>
-                                <small class="fs-6 opacity-75">Những bông hoa đẹp nhất cho người bạn yêu thương</small>
+                                <div>Your Shopping Cart</div>
+                                <small class="fs-6 opacity-75">The most beautiful flowers for the one you love.</small>
                             </div>
                         </h1>
                     </div>
                     <div class="col-auto">
                         <a href="${pageContext.request.contextPath}/product-list" class="header-link">
-                            <i class="bi bi-arrow-left me-2"></i> Tiếp tục mua sắm
+                            <i class="bi bi-arrow-left me-2"></i> Continue Shopping
                         </a>
                     </div>
                 </div>
@@ -300,7 +300,7 @@
                                     <div class="flex-grow-1">
                                         <h5 class="product-name mb-2">${item.productName}</h5>
                                         <p class="shop-info mb-2">
-                                            <i class="bi bi-shop me-1"></i> Cửa hàng hoa tươi
+                                            <i class="bi bi-shop me-1"></i> Fresh Flower Shop
                                         </p>
                                         <p class="price-info mb-3">
                                     <fmt:formatNumber value="${item.price}" type="currency" currencySymbol="₫"/> x ${item.quantity} =
@@ -328,7 +328,7 @@
                     <!-- ĐỊA CHỈ GIAO HÀNG -->
                     <div class="address-box">
                         <h4 class="mb-4" style="color: #831843;">
-                            <i class="bi bi-geo-alt-fill me-2"></i> Địa chỉ giao hàng
+                            <i class="bi bi-geo-alt-fill me-2"></i> Shipping Address
                         </h4>
                         <form id="addressForm">
                             <!-- Danh sách địa chỉ đã lưu -->
@@ -345,7 +345,7 @@
                                                         <div class="d-flex justify-content-between align-items-start mb-1">
                                                             <strong>${addr.receiverName}</strong>
                                                             <c:if test="${addr.isDefault}">
-                                                                <span class="badge bg-success">Mặc định</span>
+                                                                <span class="badge bg-success">Set as Default</span>
                                                             </c:if>
                                                         </div>
                                                         <div class="text-muted mb-1">${addr.phone}</div>
@@ -357,7 +357,7 @@
                                     </c:when>
                                     <c:otherwise>
                                         <div class="text-center text-muted py-3">
-                                            <p class="mb-0">Nhập địa chỉ giao hàng bên dưới</p>
+                                            <p class="mb-0">Please enter your shipping address</p>
                                         </div>
                                     </c:otherwise>
                                 </c:choose>
@@ -384,29 +384,29 @@
                             <div class="collapse" id="newAddressForm">
                                 <hr>
                                 <div class="mb-3">
-                                    <label class="form-label">Họ và tên</label>
+                                    <label class="form-label">Full name</label>
                                     <input type="text" class="form-control" id="receiverName" placeholder="Nguyễn Văn A" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Số điện thoại</label>
+                                    <label class="form-label">Phone number</label>
                                     <input type="tel" class="form-control" id="phone" placeholder="0901234567" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Địa chỉ chi tiết</label>
-                                    <textarea class="form-control" id="fullAddress" rows="2" placeholder="Số nhà, đường, phường, quận, thành phố" required></textarea>
+                                    <label class="form-label">Address</label>
+                                    <textarea class="form-control" id="fullAddress" rows="2" placeholder="House number, street, ward, district, city" required></textarea>
                                 </div>
                                 <div class="mb-3 form-check">
                                     <input type="checkbox" class="form-check-input" id="isDefault">
-                                    <label class="form-check-label" for="isDefault">Đặt làm địa chỉ mặc định</label>
+                                    <label class="form-check-label" for="isDefault">Set as default address</label>
                                 </div>
                             </div>
 
                             <button type="button" class="btn btn-outline-primary w-100 mb-2" data-bs-toggle="collapse" data-bs-target="#newAddressForm">
-                                <i class="bi bi-plus-circle me-2"></i> Thêm địa chỉ mới
+                                <i class="bi bi-plus-circle me-2"></i> Add new address
                             </button>
 
                             <button type="button" class="btn btn-primary w-100" onclick="saveAddress()">
-                                <i class="bi bi-check-circle me-2"></i> Xác nhận địa chỉ
+                                <i class="bi bi-check-circle me-2"></i> Confirm address
                             </button>
                         </form>
                     </div>
@@ -414,21 +414,21 @@
                     <!-- TỔNG KẾT -->
                             <div class="summary-box">
                                 <h4 class="mb-4" style="color: #831843;">
-                                    <i class="bi bi-receipt me-2"></i>Tổng kết đơn hàng
+                                    <i class="bi bi-receipt me-2"></i>Order Summary
                                 </h4>
                                 <div class="d-flex justify-content-between mb-3">
-                                    <span>Tổng tiền hàng:</span>
+                                    <span>Total Products:</span>
                                     <strong class="price-info">
                                         <fmt:formatNumber value="${total}" type="currency" currencySymbol="₫"/>
                                     </strong>
                                 </div>
                                 <div class="d-flex justify-content-between mb-3">
-                                    <span>Phí vận chuyển:</span>
+                                    <span>Address fee:</span>
                                     <strong class="price-info">30,000₫</strong>
                                 </div>
                                 <hr>
                                 <div class="d-flex justify-content-between mb-4">
-                                    <span class="fw-bold">Thành tiền:</span>
+                                    <span class="fw-bold">Total:</span>
                                     <strong class="total-price">
                                         <fmt:formatNumber value="${total + 30000}" type="currency" currencySymbol="₫"/>
                                     </strong>
@@ -438,10 +438,10 @@
                                     <button class="btn-checkout w-100 d-flex align-items-center justify-content-center"> 
                                         <i class="bi bi-credit-card me-2">
 
-                                        </i> Thanh toán ngay </button> </form>
+                                        </i> Pay Now </button> </form>
                                 <div class="text-center mt-3">
                                     <small class="text-muted">
-                                        <i class="bi bi-truck me-1"></i> Miễn phí vận chuyển cho đơn trên 500,000₫
+                                        <i class="bi bi-truck me-1"></i> Free shipping for the above order 500,000₫
                                     </small>
                                 </div>
                             </div>

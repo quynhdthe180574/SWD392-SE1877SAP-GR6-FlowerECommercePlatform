@@ -110,7 +110,7 @@
                     <strong style="color: red; font-size: 24px;">0385684262</strong>
                 </div>
             </c:if>
-            <a href="home.jsp"
+            <a href="${pageContext.request.contextPath}/homepage"
                style="display: inline-block; background-color: #ffb3d9; color: white;
                padding: 12px 24px; border-radius: 25px; text-decoration: none;
                font-size: 16px; font-weight: 600; margin: 8px;

@@ -37,7 +37,7 @@ public class PaymentService {
         String bankCode = req.getParameter("bank_Code");
 
         OrderDAO orderDAO = new OrderDAO();
-        int usertId = 1;
+        int usertId = 11;
         Order order = new Order();
         order.setUserId(usertId);
         order.setShipFee(BigDecimal.valueOf(30000));
