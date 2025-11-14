@@ -2,51 +2,53 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+package controller;
 
-package controller.payment;
-
+import entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.annotation.WebServlet;
-import service.PaymentService;
+import service.ProductService;
+
 /**
  *
  * @author ADMIN
  */
-@WebServlet(name = "VNPay_Payment", urlPatterns = {"/VNPay_Payment"})
-public class VNPay_Payment extends HttpServlet {
-   private final PaymentService vnPayService = new PaymentService();
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+public class DetailController extends HttpServlet {
+private final ProductService productService = new ProductService();
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet VNPay_Payment</title>");  
+            out.println("<title>Servlet DetailController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet VNPay_Payment at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet DetailController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -54,33 +56,33 @@ public class VNPay_Payment extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
-    } 
+            throws ServletException, IOException {
+       // processRequest(request, response);
+       int productId = Integer.parseInt(request.getParameter("productId"));
+       Product p =productService.getProductById(productId);
+       request.setAttribute("list", p);
+       request.getRequestDispatcher("detail.jsp").forward(request, response);
+       
+       
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-    throws ServletException, IOException {
-        try {
-            // Chỉ cần truyền request vào service
-            String paymentUrl = vnPayService.createPaymentUrl(req);
-            resp.sendRedirect(paymentUrl);
-        } catch (Exception e) {
-            e.printStackTrace();
-            resp.getWriter().println("Error creating VNPay payment URL: " + e.getMessage());
-        }
-    
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override
